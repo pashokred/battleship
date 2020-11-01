@@ -12,7 +12,8 @@ int main()
 {
     int sock = 0, valread;
     struct sockaddr_in serv_addr;
-    char buffer[10][10] = {{}};
+    char *message;
+    char buffer[10][10] = {};
     if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0)
     {
         printf("\n Socket creation error \n");
@@ -35,18 +36,22 @@ int main()
         return -1;
     }
 
-    for(int i=0;i<20;++i){
-        char shot[10][10];
+    for(int i=0;i<100;++i){
+        char shot[10][10] = {};
         int x, y;
         printf("Enter x coord from 1 to 10\n");
         cin >> x;
         printf("Enter y coord from 1 to 10\n");
         cin >> y;
-        shot[x][y]='*';
-        send(sock , shot , 100 , 0 );
+        shot[x-1][y-1]='*';
+        send(sock , shot , sizeof(shot) , 0 );
         printf("Shot sent\n");
-        valread = read( sock , buffer, 1024);
+        read(sock, message, 1024);
+        char msg[] = "You win!";
+        printf("%s%c", message, '\n');
+        if(msg == message){
+            break;
+        }
     }
-    printf("%s\n",buffer );
     return 0;
 }
