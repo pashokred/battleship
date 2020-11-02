@@ -42,11 +42,22 @@ int main()
         try{
             char shot[10][10] = {};
             int x, y;
+            string cmd1="", cmd2="";
+
             printf("Enter x coord from 1 to 10\n");
-            cin >> y;
+            cin >> cmd1;
+            y = stoi(cmd1);
+            if(y>10 || y<0)
+                throw std::invalid_argument("Value must be integer from 1 to 10");
+
             printf("Enter y coord from 1 to 10\n");
-            cin >> x;
+            cin >> cmd2;
+            x = stoi(cmd1);
+            if(x>10 || x<0)
+                throw std::invalid_argument("Value must be integer from 1 to 10");
+
             shot[x-1][y-1]='*';
+
             send(sock , shot , sizeof(shot) , 0 );
             //printf("Shot sent\n");
             read(sock, message, 1024);
@@ -55,8 +66,8 @@ int main()
             if(msg == message){
                 break;
             }
-        } catch (invalid_argument argument) {
-            printf("Invalid argument. You should enter only integer coordinates from 1 to 10\n");
+        } catch (invalid_argument &argument) {
+            printf("%s%s%c", "Invalid argument.", argument.what(), '\n');
         }
     }
     return 0;
