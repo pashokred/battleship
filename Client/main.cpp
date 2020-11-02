@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <unistd.h>
@@ -36,21 +35,39 @@ int main()
         return -1;
     }
 
+    printf("Welcome to the battleship game!\n"
+           "To start game, you should just enter integer coordinates of shoot from 1 to 10\n\n");
+
     for(int i=0;i<100;++i){
-        char shot[10][10] = {};
-        int x, y;
-        printf("Enter x coord from 1 to 10\n");
-        cin >> x;
-        printf("Enter y coord from 1 to 10\n");
-        cin >> y;
-        shot[x-1][y-1]='*';
-        send(sock , shot , sizeof(shot) , 0 );
-        printf("Shot sent\n");
-        read(sock, message, 1024);
-        char msg[] = "You win!";
-        printf("%s%c", message, '\n');
-        if(msg == message){
-            break;
+        try{
+            char shot[10][10] = {};
+            int x, y;
+            string cmd1="", cmd2="";
+
+            printf("Enter x coord from 1 to 10\n");
+            cin >> cmd1;
+            y = stoi(cmd1);
+            if(y>10 || y<0)
+                throw std::invalid_argument("Value must be integer from 1 to 10");
+
+            printf("Enter y coord from 1 to 10\n");
+            cin >> cmd2;
+            x = stoi(cmd1);
+            if(x>10 || x<0)
+                throw std::invalid_argument("Value must be integer from 1 to 10");
+
+            shot[x-1][y-1]='*';
+
+            send(sock , shot , sizeof(shot) , 0 );
+            //printf("Shot sent\n");
+            read(sock, message, 1024);
+            char msg[] = "You win!";
+            printf("%s%c", message, '\n');
+            if(msg == message){
+                break;
+            }
+        } catch (invalid_argument &argument) {
+            printf("%s%s%c", "Invalid argument.", argument.what(), '\n');
         }
     }
     return 0;
