@@ -35,21 +35,28 @@ int main()
         return -1;
     }
 
+    printf("Welcome to the battleship game!\n"
+           "To start game, you should just enter integer coordinates of shoot from 1 to 10\n\n");
+
     for(int i=0;i<100;++i){
-        char shot[10][10] = {};
-        int x, y;
-        printf("Enter x coord from 1 to 10\n");
-        cin >> y;
-        printf("Enter y coord from 1 to 10\n");
-        cin >> x;
-        shot[x-1][y-1]='*';
-        send(sock , shot , sizeof(shot) , 0 );
-        //printf("Shot sent\n");
-        read(sock, message, 1024);
-        char msg[] = "You win!";
-        printf("%s%c", message, '\n');
-        if(msg == message){
-            break;
+        try{
+            char shot[10][10] = {};
+            int x, y;
+            printf("Enter x coord from 1 to 10\n");
+            cin >> y;
+            printf("Enter y coord from 1 to 10\n");
+            cin >> x;
+            shot[x-1][y-1]='*';
+            send(sock , shot , sizeof(shot) , 0 );
+            //printf("Shot sent\n");
+            read(sock, message, 1024);
+            char msg[] = "You win!";
+            printf("%s%c", message, '\n');
+            if(msg == message){
+                break;
+            }
+        } catch (invalid_argument argument) {
+            printf("Invalid argument. You should enter only integer coordinates from 1 to 10\n");
         }
     }
     return 0;
