@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <unistd.h>
@@ -40,12 +39,12 @@ int main()
         char shot[10][10] = {};
         int x, y;
         printf("Enter x coord from 1 to 10\n");
-        cin >> x;
-        printf("Enter y coord from 1 to 10\n");
         cin >> y;
+        printf("Enter y coord from 1 to 10\n");
+        cin >> x;
         shot[x-1][y-1]='*';
         send(sock , shot , sizeof(shot) , 0 );
-        printf("Shot sent\n");
+        //printf("Shot sent\n");
         read(sock, message, 1024);
         char msg[] = "You win!";
         printf("%s%c", message, '\n');

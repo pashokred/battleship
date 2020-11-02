@@ -1,9 +1,6 @@
 #include <unistd.h>
-#include <stdio.h>
 #include <sys/socket.h>
-#include <stdlib.h>
 #include <netinet/in.h>
-#include <string.h>
 #include <algorithm>
 #define PORT 1041
 
@@ -22,22 +19,25 @@
 
 int main()
 {
-    int server_fd, new_socket, valread;
-    struct sockaddr_in address;
+    int server_fd, new_socket;
+    struct sockaddr_in address{};
     int opt = 1;
     int addrlen = sizeof(address);
     char buffer[10][10] = {};
     char boats[10][10] = {
-            {'/', '*', '*', '/', '/', '/', '/', '/', '/'},
-            {'*', '/', '/', '/', '/', '/', '/', '/', '/'},
-            {'/', '/', '*', '*', '/', '*', '*', '/', '/'},
-            {'*', '/', '/', '/', '/', '/', '/', '/', '/'},
-            {'*', '/', '/', '/', '/', '/', '/', '/', '/'},
-            {'*', '/', '/', '*', '*', '*', '*', '/', '/'},
-            {'/', '/', '/', '/', '/', '/', '/', '/', '/'},
-            {'*', '/', '/', '/', '*', '*', '*', '/', '/'},
-            {'*', '/', '/', '/', '/', '/', '/', '/', '/'},
-            {'*', '/', '/', '/', '/', '/', '/', '/', '/'}
+             //1    2    3    4    5    6    7    8    9    X
+     /* 1  */{'/', '*', '*', '/', '/', '/', '/', '/', '/'},
+     /* 2  */{'*', '/', '/', '/', '/', '/', '/', '/', '/'},
+     /* 3  */{'/', '/', '*', '*', '/', '*', '*', '/', '/'},
+     /* 4  */{'*', '/', '/', '/', '/', '/', '/', '/', '/'},
+     /* 5  */{'*', '/', '/', '/', '/', '/', '/', '/', '/'},
+     /* 6  */{'*', '/', '/', '*', '*', '*', '*', '/', '/'},
+     /* 7  */{'/', '/', '/', '/', '/', '/', '/', '/', '/'},
+     /* 8  */{'*', '/', '/', '/', '*', '*', '*', '/', '/'},
+     /* 9  */{'*', '/', '/', '/', '/', '/', '/', '/', '/'},
+     /* 10 */{'*', '/', '/', '/', '/', '/', '/', '/', '/'}
+     /* Y  */
+
     };
     char hitshot[10][10];
 
@@ -80,14 +80,15 @@ int main()
         exit(EXIT_FAILURE);
     }
 
-    int counter = 0;
+    int hits = 0;
+    int misses = 0;
 
     while (read( new_socket , buffer, 1024) >= 0){
 
         char *message;
         std::string hit("You hit the target!");
         std::string miss("You missed!");
-        std::string win("You win!");
+        std::string win("You win!\n\n Statistic:\n \tAmount of shots: ");
 
         bool exitFlag = false;
 
@@ -96,14 +97,21 @@ int main()
                 if(buffer[i][j] == '*'){
                     if(boats[i][j] == '*'){
                         hitshot[i][j]='+';
-                        counter++;
-                        if(counter >=20)
+                        hits++;
+                        if(hits >=20){
+                            win += std::to_string(hits+misses);
+                            win += "\n \tAmount of hits: ";
+                            win += std::to_string(hits);
+                            win += "\n \tAmount of mises: ";
+                            win += std::to_string(misses);
                             message = &win[0];
+                        }
                         else
                             message = &hit[0];
                     }
                     else{
                         hitshot[i][j]='-';
+                        misses++;
                         message = &miss[0];
                     }
                     exitFlag = true;
@@ -115,7 +123,7 @@ int main()
         }
 
         send(new_socket , message , sizeof(hitshot) , 0 );
-        printf("Hitshot send\n");
+        //printf("Hitshot send\n");
     }
     return 0;
 }
