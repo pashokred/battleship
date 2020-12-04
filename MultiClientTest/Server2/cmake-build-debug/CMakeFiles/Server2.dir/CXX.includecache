@@ -1,0 +1,18 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/pashok/Documents/Univer/Architecture of computing systems and computer networks/MultiClientTest/Server2/main.cpp
+unistd.h
+-
+sys/socket.h
+-
+netinet/in.h
+-
+algorithm
+-
+

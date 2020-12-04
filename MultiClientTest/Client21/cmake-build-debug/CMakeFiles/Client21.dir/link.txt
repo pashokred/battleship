@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/Client21.dir/main.cpp.o  -o Client21 

@@ -13,7 +13,7 @@ arpa/inet.h
 -
 unistd.h
 -
-string.h
+string
 -
 iostream
 -

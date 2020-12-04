@@ -2,7 +2,10 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <algorithm>
-#define PORT 1041
+#include <string>
+#define PORT 8888
+
+using namespace std;
 
 /*Гра "морський бій".
 Грає лише користувач на клієнті. Сервер відповідає лише про результат

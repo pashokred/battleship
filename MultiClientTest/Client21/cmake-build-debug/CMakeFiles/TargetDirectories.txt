@@ -1,0 +1,3 @@
+/home/pashok/Documents/Univer/Architecture of computing systems and computer networks/MultiClientTest/Client21/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/pashok/Documents/Univer/Architecture of computing systems and computer networks/MultiClientTest/Client21/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/pashok/Documents/Univer/Architecture of computing systems and computer networks/MultiClientTest/Client21/cmake-build-debug/CMakeFiles/Client21.dir

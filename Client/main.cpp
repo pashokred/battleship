@@ -1,7 +1,7 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <unistd.h>
-#include <string.h>
+#include <string>
 #include <iostream>
 #define PORT 1041
 
@@ -59,10 +59,11 @@ int main()
             shot[x-1][y-1]='*';
 
             send(sock , shot , sizeof(shot) , 0 );
-            //printf("Shot sent\n");
+            printf("Shot sent\n");
             read(sock, message, 1024);
             char msg[] = "You win!";
-            printf("%s%c", message, '\n');
+            printf("%s", message);
+            printf("%c", '\n');
             if(msg == message){
                 break;
             }
